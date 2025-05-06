@@ -34,3 +34,37 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         // Use email as the username for OAuth users
         String username = (email != null) ? email : name + "_" + userRequest.getClientRegistration().getRegistrationId();
+        // Check if user already exists in the database
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        User user;
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+        } else {
+            // Create a new user if not found
+            user = new User();
+            user.setUsername(username);
+
+            // Set a random secure password for OAuth users (since we can't authenticate using a password here)
+            user.setPassword(UUID.randomUUID().toString());
+            userRepository.save(user);
+        }
+
+        // Automatically create the user profile if it doesn't exist
+        List<UserProfile> userProfiles = userProfileRepository.findByUserId(user.getId());
+        if (userProfiles.isEmpty()) {
+            UserProfile userProfile = new UserProfile();
+            userProfile.setUserId(user.getId());
+            userProfile.setEmail(user.getUsername());  // Set email as username
+            userProfile.setProfileVisibility(true);    // Set default visibility to true (or adjust based on your needs)
+
+            // No need to set other fields like first name or last name here
+
+            userProfileRepository.save(userProfile);
+        }
+
+        // Return a custom OAuth2User with the User entity wrapped
+        return new CustomOAuth2User(oauth2User, user);
+    }
+}
+
