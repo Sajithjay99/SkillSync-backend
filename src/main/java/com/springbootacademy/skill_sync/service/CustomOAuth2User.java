@@ -10,3 +10,12 @@ import java.util.Map;
 public class CustomOAuth2User implements OAuth2User {
     private final OAuth2User oauth2User;
     private final User user;
+    public CustomOAuth2User(OAuth2User oauth2User, User user) {
+        this.oauth2User = oauth2User;
+        this.user = user;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return oauth2User.getAttributes();
+    }
