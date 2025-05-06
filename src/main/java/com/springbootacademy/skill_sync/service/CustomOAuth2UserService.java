@@ -23,3 +23,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     private UserProfileRepository userProfileRepository; // Assuming you have a UserProfile repository
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        OAuth2User oauth2User = super.loadUser(userRequest);
+
+        // Extract email from OAuth user info (assuming 'email' attribute is available)
+        String email = oauth2User.getAttribute("email");
+        String name = oauth2User.getAttribute("name");
+
+        // Use email as the username for OAuth users
+        String username = (email != null) ? email : name + "_" + userRequest.getClientRegistration().getRegistrationId();
