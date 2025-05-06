@@ -14,3 +14,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+@Service
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserProfileRepository userProfileRepository; // Assuming you have a UserProfile repository
