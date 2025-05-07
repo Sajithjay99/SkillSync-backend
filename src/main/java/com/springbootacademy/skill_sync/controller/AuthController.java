@@ -84,3 +84,39 @@ public class AuthController {
             return ResponseEntity.internalServerError().body("Error: An unexpected error occurred. Please try again later.");
         }
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal Object principal) {
+        try {
+            if (principal == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not authenticated");
+            }
+            
+            Map<String, Object> userInfo = new HashMap<>();
+            
+            // Handle different types of principals
+            if (principal instanceof User) {
+                User user = (User) principal;
+                userInfo.put("id", user.getId());
+                userInfo.put("username", user.getUsername());
+                userInfo.put("authType", "manual");
+            } else if (principal instanceof CustomOAuth2User) {
+                CustomOAuth2User oAuth2User = (CustomOAuth2User) principal;
+                userInfo.put("id", oAuth2User.getId());
+                userInfo.put("username", oAuth2User.getName());
+                userInfo.put("email", oAuth2User.getEmail());
+                userInfo.put("authType", "oauth2");
+            } else if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                userInfo.put("name", oAuth2User.getAttribute("name"));
+                userInfo.put("email", oAuth2User.getAttribute("email"));
+                userInfo.put("authType", "oauth2");
+            }
+            
+            return ResponseEntity.ok(userInfo);
+        } catch (Exception ex) {
+            logger.error("Error getting current user", ex);
+            return ResponseEntity.internalServerError().body("Error retrieving user information");
+        }
+    }
+    
