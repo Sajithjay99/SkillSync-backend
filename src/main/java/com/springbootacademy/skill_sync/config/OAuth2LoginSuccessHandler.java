@@ -1,6 +1,5 @@
 package com.springbootacademy.skill_sync.config;
 
- 
 
 import com.example.pafbackend.dto.TokenDTO;
 import com.example.pafbackend.models.User;
