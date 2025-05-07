@@ -25,4 +25,21 @@ public class UserConnection {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id;}
+
+        public String getUserId() {
+            return userId;
+        }
+    
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+    
+        public List<String> getFriendIds() {
+            return friendIds;
+        }
+    
+        public void setFriendIds(List<String> friendIds) {
+            this.friendIds = friendIds;
+        }
+    }
