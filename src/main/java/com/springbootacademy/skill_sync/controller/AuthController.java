@@ -120,3 +120,32 @@ public class AuthController {
         }
     }
     
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        try {
+            SecurityContextHolder.clearContext();
+            return ResponseEntity.ok(Collections.singletonMap("message", "Logged out successfully"));
+        } catch (Exception ex) {
+            logger.error("Logout error", ex);
+            return ResponseEntity.internalServerError().body("Error during logout process");
+        }
+    }
+    
+    @GetMapping("/auth/refresh")
+    public ResponseEntity<?> refreshToken(@AuthenticationPrincipal User user) {
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+        
+        try {
+            Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
+                    user, "", Collections.EMPTY_LIST);
+            TokenDTO tokenDTO = tokenGenerator.createToken(authentication);
+            return ResponseEntity.ok(tokenDTO);
+        } catch (Exception ex) {
+            logger.error("Token refresh error", ex);
+            return ResponseEntity.internalServerError().body("Error refreshing tokens");
+        }
+    }
+}
