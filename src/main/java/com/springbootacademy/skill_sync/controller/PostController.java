@@ -45,3 +45,32 @@ public class PostController {
         postRepository.deleteById(postId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/{postId}")
+    public ResponseEntity<Post> updatePost(@PathVariable String postId, @RequestBody Post updatedPost) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        if (optionalPost.isPresent()) {
+            Post existingPost = optionalPost.get();
+            // Update fields if present in the request body
+            if (updatedPost.getMediaLink() != null) {
+                existingPost.setMediaLink(updatedPost.getMediaLink());
+            }
+            if (updatedPost.getMediaType() != null) {
+                existingPost.setMediaType(updatedPost.getMediaType());
+            }
+            if (updatedPost.getContentDescription() != null) {
+                existingPost.setContentDescription(updatedPost.getContentDescription());
+            }
+            // Save the updated post
+            Post savedPost = postRepository.save(existingPost);
+            return new ResponseEntity<>(savedPost, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/media/images")
+    public ResponseEntity<List<Post>> getImagePosts() {
+        List<Post> images = postRepository.findByMediaType("image");
+        return new ResponseEntity<>(images, HttpStatus.OK);
+    }
