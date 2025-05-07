@@ -67,3 +67,20 @@ public class AuthController {
             return ResponseEntity.internalServerError().body("Error: An unexpected error occurred. Please try again later.");
         }
     }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        try {
+            logger.info("====== Login method called for " + loginDTO.getUsername());
+            Authentication authentication = daoAuthenticationProvider.authenticate(
+                    UsernamePasswordAuthenticationToken.unauthenticated(loginDTO.getUsername(), loginDTO.getPassword())
+            );
+            return ResponseEntity.ok(tokenGenerator.createToken(authentication));
+        } catch (AuthenticationException ex) {
+            logger.error("Authentication error", ex);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        } catch (Exception ex) {
+            logger.error("Login error", ex);
+            return ResponseEntity.internalServerError().body("Error: An unexpected error occurred. Please try again later.");
+        }
+    }
