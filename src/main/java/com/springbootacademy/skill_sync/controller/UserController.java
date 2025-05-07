@@ -1,40 +1,53 @@
 package com.springbootacademy.skill_sync.controller;
 
-import com.springbootacademy.skill_sync.dto.LoginRequestDTO;
-import com.springbootacademy.skill_sync.dto.UserDTO;
-import com.springbootacademy.skill_sync.service.UserService;
+import com.example.pafbackend.models.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
+import java.util.Optional;
+import com.example.pafbackend.models.User;
+import com.example.pafbackend.repositories.UserRepository;
+import org.springframework.http.ResponseEntity;
 @RestController
-@RequestMapping("/api/v1/user")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    private UserRepository userRepository;
+
+    // Create a new user
+    @PostMapping("/create")
+    public User createUser(@RequestBody User user) {
+        return userRepository.save(user);
     }
 
-    @PostMapping("/register")
-    public String registerUser(@RequestBody UserDTO userDTO) {
-        return userService.registerUser(userDTO);
+    // Retrieve all users
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody LoginRequestDTO loginRequest) {
-        return userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+    // Retrieve a user by ID
+    @GetMapping("/{id}")
+    public Optional<User> getUserById(@PathVariable String id) {
+        return userRepository.findById(id);
     }
 
-    @GetMapping("/profile/{id}")
-    public UserDTO getProfile(@PathVariable String id) {
-        return userService.getUserProfileById(id);
+
+
+    // Delete a user by ID
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable String id) {
+        userRepository.deleteById(id);
     }
 
-    @PutMapping("/profile/{id}")
-    public String updateProfile(@PathVariable String id, @RequestBody UserDTO userDTO) {
-        return userService.updateUserProfile(id, userDTO);
+    @GetMapping("/exists/{username}")
+    public ResponseEntity<Boolean> checkIfUserExists(@PathVariable String username) {
+        boolean userExists = userRepository.existsByUsername(username);
+        return ResponseEntity.ok(userExists);
     }
+
+
 }
