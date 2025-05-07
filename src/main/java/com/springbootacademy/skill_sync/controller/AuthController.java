@@ -40,3 +40,31 @@ public class AuthController {
     
     @Autowired
     UserDetailsManager userDetailsManager;
+    @Autowired
+    TokenGenerator tokenGenerator;
+
+    @Autowired
+    DaoAuthenticationProvider daoAuthenticationProvider;
+
+    @PostMapping("/auth/register")
+    public ResponseEntity<?> register(@RequestBody SignupDTO signupDTO) {
+        try {
+            User user = new User();
+            user.setUsername(signupDTO.getUsername());
+            user.setPassword(signupDTO.getPassword());
+            userDetailsManager.createUser(user);
+
+            Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
+                    user, signupDTO.getPassword(), Collections.EMPTY_LIST);
+            return ResponseEntity.ok(tokenGenerator.createToken(authentication));
+        } catch (UsernameNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error: Username not found!");
+        } catch (BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: Bad credentials!");
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username may already exist!");
+        } catch (Exception ex) {
+            logger.error("Registration error", ex);
+            return ResponseEntity.internalServerError().body("Error: An unexpected error occurred. Please try again later.");
+        }
+    }
