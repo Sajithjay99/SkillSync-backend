@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface LearningRepository extends MongoRepository<Learning, String> {
     List<Learning> findByUserId(String userId);

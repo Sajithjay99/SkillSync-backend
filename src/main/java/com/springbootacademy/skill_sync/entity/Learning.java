@@ -23,11 +23,11 @@ public class Learning {
     private String template;
 
     // Template-specific fields (remaining)
-    private String certificationName;   // For "Certification/Qualification"
-    private String provider;            // For "Certification/Qualification" and "Workshops/Bootcamps"
-    private String dateObtained;        // For "Certification/Qualification"
+    private String certificationName;   //  Certification
+    private String provider;            // Certificationand
+    private String dateObtained;        // Certification
 
-    private String challengeName;       // For "Challenges/Competitions"
-    private String result;              // For "Challenges/Competitions"
+    private String challengeName;       // Competitions
+    private String result;              //Competitions
 }
  
