@@ -97,4 +97,18 @@ public class LearningController {
         }
     }
 
-    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLearning(@PathVariable String id, @RequestParam String userId) {
+        Optional<Learning> learning = learningRepository.findById(id);
+        if (learning.isPresent()) {
+            if (!learning.get().getUserId().equals(userId)) {
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            }
+            learningRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+}
+  
