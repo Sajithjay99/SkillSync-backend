@@ -110,3 +110,16 @@ public class KeyUtils {
 
         return keyPair;
     }
+    public RSAPublicKey getAccessTokenPublicKey() {
+        return (RSAPublicKey) getAccessTokenKeyPair().getPublic();
+    };
+    public RSAPrivateKey getAccessTokenPrivateKey() {
+        return (RSAPrivateKey) getAccessTokenKeyPair().getPrivate();
+    };
+    public RSAPublicKey getRefreshTokenPublicKey() {
+        return (RSAPublicKey) getRefreshTokenKeyPair().getPublic();
+    };
+    public RSAPrivateKey getRefreshTokenPrivateKey() {
+        return (RSAPrivateKey) getRefreshTokenKeyPair().getPrivate();
+    };
+}
