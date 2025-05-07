@@ -74,3 +74,10 @@ public class PostController {
         List<Post> images = postRepository.findByMediaType("image");
         return new ResponseEntity<>(images, HttpStatus.OK);
     }
+    @GetMapping("/media/videos")
+    public ResponseEntity<List<Post>> getVideoPosts() {
+        List<Post> videos = postRepository.findByMediaType("video");
+        return new ResponseEntity<>(videos, HttpStatus.OK);
+    }
+
+}
