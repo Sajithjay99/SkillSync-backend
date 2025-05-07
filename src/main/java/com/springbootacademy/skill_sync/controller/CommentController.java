@@ -1,12 +1,12 @@
-package com.example.pafbackend.controllers;
+package com.springbootacademy.skill_sync.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.pafbackend.models.Comment;
-import com.example.pafbackend.models.User;
-import com.example.pafbackend.repositories.CommentRepository;
-import com.example.pafbackend.repositories.UserRepository;
+import com.springbootacademy.skill_sync.entity.Comment;
+import com.springbootacademy.skill_sync.entity.User;
+import com.springbootacademy.skill_sync.repo.CommentRepository;
+import com.springbootacademy.skill_sync.repo.UserRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class CommentController {
     private CommentRepository commentRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo UserRepo;
 
     // POST: Create a new Comment
     @PostMapping

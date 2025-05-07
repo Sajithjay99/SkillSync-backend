@@ -1,7 +1,7 @@
-package com.example.pafbackend.controllers;
+package com.springbootacademy.skill_sync.controller;
 
-import com.example.pafbackend.models.Like;
-import com.example.pafbackend.repositories.LikeRepository;
+import  com.springbootacademy.skill_sync.entity.Like;
+import  com.springbootacademy.skill_sync.repo.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
