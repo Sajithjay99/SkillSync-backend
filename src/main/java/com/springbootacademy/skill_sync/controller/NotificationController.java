@@ -1,4 +1,7 @@
-package com.example.pafbackend.controllers;
+feature/akash/interactive/sprint01
+package com.example.pafbackend.controllers
+package com.springbootacademy.skill_sync.controller;
+Dev
 
 import com.example.pafbackend.models.Notification;
 import com.example.pafbackend.repositories.NotificationRepository;
