@@ -27,4 +27,7 @@ public class Learning {
     private String provider;            // For "Certification/Qualification" and "Workshops/Bootcamps"
     private String dateObtained;        // For "Certification/Qualification"
 
-    
+    private String challengeName;       // For "Challenges/Competitions"
+    private String result;              // For "Challenges/Competitions"
+}
+ 
