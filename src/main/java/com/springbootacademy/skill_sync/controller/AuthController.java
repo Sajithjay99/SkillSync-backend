@@ -32,6 +32,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api")
 public class AuthController {
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     
-}
+    @Autowired
+    UserDetailsManager userDetailsManager;
