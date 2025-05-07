@@ -39,3 +39,23 @@ public class UserProfile {
     public String getUserId() {
         return userId;
     }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public boolean isProfileVisibility() {
+        return profileVisibility;
+    }
+
+    public void setProfileVisibility(boolean profileVisibility) {
+        this.profileVisibility = profileVisibility;
+    }
+
+    public UserProfile() {}
+
+    public UserProfile(String id, String userId, boolean profileVisibility) {
+        this.id = id;
+        this.userId = userId;
+        this.profileVisibility = profileVisibility;
+    }
+}
